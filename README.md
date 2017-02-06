@@ -4,6 +4,8 @@ Do your users need to manage a list of stuff? Edit it? Drag it around?
 
 Use this!
 
+[try it on codepen](http://codepen.io/amonks/pen/NdzErw?editors=0010)
+
 ```javascript
 import React from 'react'
 import {render} from 'react-dom'
