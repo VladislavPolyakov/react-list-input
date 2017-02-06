@@ -141,19 +141,22 @@ class ListInput extends React.Component {
 
   @autobind
   makeItemComponentWrapper ({ItemComponent, minItems}) {
-    const removable = this.props.value.length > (this.props.minItems || 0)
-    return ({value, onChange, decorateHandle, onRemove}) =>
-      <ItemComponent
-        {...{
-          ItemComponent,
-          decorateHandle,
-          value
-        }}
-        removable={removable}
-        onChange={onChange}
-        value={value}
-        onRemove={removable ? onRemove : R.identity}
-      />
+    return ({value, onChange, decorateHandle, onRemove}) => {
+      const removable = this.props.value.length > (this.props.minItems || 0)
+      return (
+        <ItemComponent
+          {...{
+            ItemComponent,
+            decorateHandle,
+            value
+          }}
+          removable={removable}
+          onChange={onChange}
+          value={value}
+          onRemove={removable ? onRemove : R.identity}
+        />
+      )
+    }
   }
 
   @autobind
