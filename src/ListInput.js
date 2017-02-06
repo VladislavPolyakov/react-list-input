@@ -140,7 +140,8 @@ class ListInput extends React.Component {
   }
 
   @autobind
-  makeItemComponentWrapper ({ItemComponent, minItems, removable}) {
+  makeItemComponentWrapper ({ItemComponent, minItems}) {
+    const removable = this.props.value.length > (this.props.minItems || 0)
     return ({value, onChange, decorateHandle, onRemove}) =>
       <ItemComponent
         {...{
@@ -151,8 +152,7 @@ class ListInput extends React.Component {
         removable={removable}
         onChange={onChange}
         value={value}
-        _item={value}
-        onRemove={onRemove}
+        onRemove={removable ? onRemove : R.identity}
       />
   }
 
@@ -160,7 +160,6 @@ class ListInput extends React.Component {
   updateWrappedItemComponent () {
     this.setState({
       WrappedItemComponent: this.makeItemComponentWrapper({
-        removable: this.props.value.length > (this.props.minItems || 0),
         ItemComponent: this.props.ItemComponent,
         minItems: this.props.minItems,
         value: this.props.value,

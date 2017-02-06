@@ -10,7 +10,7 @@ Use this!
 import React from 'react'
 import {render} from 'react-dom'
 
-import ListInput from 'react-list-input'
+import ReactListInput from 'react-list-input'
 
 const Input = ({value, onChange, type = 'text'}) =>
   <input type={type} value={value} onChange={e => onChange(e.target.value)} />
@@ -21,15 +21,18 @@ class Demo extends React.Component {
     this.state = {
       value: ['alpha', 'beta', 'gamma', 'delta', 'epsillon']
     }
-    this.Item.displayName = 'Item'
-    this.StagingItem.displayName = 'StagingItem'
   }
 
   Item ({decorateHandle, removable, onChange, onRemove, value}) {
     return (
       <div>
-        {decorateHandle(<span>+</span>)}
-        {removable && <span onClick={onRemove}>X</span>}
+        {decorateHandle(<span style={{cursor: 'move'}}>+</span>)}
+        <span
+          onClick={removable ? onRemove : x => x}
+          style={{
+            cursor: removable ? 'pointer' : 'not-allowed',
+            color: removable ? 'black' : 'gray'
+          }}>X</span>
         <Input value={value} onChange={onChange} />
       </div>
     )
@@ -38,7 +41,13 @@ class Demo extends React.Component {
   StagingItem ({value, onAdd, canAdd, add, onChange}) {
     return (
       <div>
-        {canAdd && <span onClick={onAdd}>Add</span>}
+        <span
+          onClick={canAdd ? onAdd : undefined}
+          style={{
+            color: canAdd ? 'black' : 'gray',
+            cursor: canAdd ? 'pointer' : 'not-allowed'
+          }}
+        >Add</span>
         <Input value={value} onChange={onChange} />
       </div>
     )
@@ -46,11 +55,11 @@ class Demo extends React.Component {
 
   render () {
     return (
-      <ListInput
+      <ReactListInput
         initialStagingValue=''
         onChange={value => this.setState({value})}
         maxItems={10}
-        minItems={1}
+        minItems={2}
         ItemComponent={this.Item}
         StagingComponent={this.StagingItem}
         value={this.state.value}
@@ -60,5 +69,6 @@ class Demo extends React.Component {
 }
 
 render(<Demo />, document.querySelector('#demo'))
+
 ```
 
