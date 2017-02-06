@@ -24,6 +24,7 @@
     "react": ""
   },
   "devDependencies": {
+    "babel-plugin-ramda": "^1.1.6",
     "nwb": "0.15.x",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
