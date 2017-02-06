@@ -1,16 +1,62 @@
 # react-list-input
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
+Do your users need to manage a list of stuff? Edit it? Drag it around?
 
-Describe react-list-input here.
+Use this!
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
+```javascript
+import React from 'react'
+import {render} from 'react-dom'
 
-[npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
+import ListInput from 'react-list-input'
 
-[coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/user/repo
+const Input = ({value, onChange, type = 'text'}) =>
+  <input type={type} value={value} onChange={e => onChange(e.target.value)} />
+
+class Demo extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      value: ['alpha', 'beta', 'gamma', 'delta', 'epsillon']
+    }
+    this.Item.displayName = 'Item'
+    this.StagingItem.displayName = 'StagingItem'
+  }
+
+  Item ({decorateHandle, removable, onChange, onRemove, value}) {
+    return (
+      <div>
+        {decorateHandle(<span>+</span>)}
+        {removable && <span onClick={onRemove}>X</span>}
+        <Input value={value} onChange={onChange} />
+      </div>
+    )
+  }
+
+  StagingItem ({value, onAdd, canAdd, add, onChange}) {
+    return (
+      <div>
+        {canAdd && <span onClick={onAdd}>Add</span>}
+        <Input value={value} onChange={onChange} />
+      </div>
+    )
+  }
+
+  render () {
+    return (
+      <ListInput
+        initialStagingValue=''
+        onChange={value => this.setState({value})}
+        maxItems={10}
+        minItems={1}
+        ItemComponent={this.Item}
+        StagingComponent={this.StagingItem}
+        value={this.state.value}
+      />
+    )
+  }
+}
+
+render(<Demo />, document.querySelector('#demo'))
+```
+
